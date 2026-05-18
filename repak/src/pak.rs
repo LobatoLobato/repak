@@ -232,6 +232,12 @@ impl PakReader {
     pub fn files(&self) -> Vec<String> {
         self.pak.index.entries().keys().cloned().collect()
     }
+    
+    pub fn files_ref<'a>(&'a self) -> Vec<&'a String> {
+        // let a = self.pak.index.entries.keys();
+        // let a = self.pak.index.entries().keys();
+        self.pak.index.entries().keys().collect()
+    }
 
     pub fn used_compression(&self) -> Vec<Compression> {
         let mut used_compression = vec![0; self.pak.compression.len()];
