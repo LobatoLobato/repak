@@ -24,6 +24,7 @@ thiserror = "2.0"
 sha1 = { workspace = true }
 strum = { workspace = true }
 hex.workspace = true
+glob-match = "0.2.1"
 
 [dev-dependencies]
 base64 = { workspace = true }

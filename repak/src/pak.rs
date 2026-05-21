@@ -145,6 +145,10 @@ impl Index {
     fn add_entry(&mut self, path: String, entry: super::entry::Entry) {
         self.entries.insert(path, entry);
     }
+    
+    fn remove_entry(&mut self, path: &str) {
+        self.entries.remove(path);
+    }
 }
 
 #[cfg(feature = "encryption")]
@@ -238,7 +242,17 @@ impl PakReader {
         // let a = self.pak.index.entries().keys();
         self.pak.index.entries().keys().collect()
     }
-
+    
+    pub fn remove_file(&mut self, path: &str) {
+        self.pak.index.remove_entry(path);
+    }
+    
+    pub fn keep_files(&mut self, filters: &[&str]) {
+        self.pak.index.entries.retain(|path, _| {
+            filters.iter().any(|filter| glob_match::glob_match(filter, path))
+        });
+    }
+    
     pub fn used_compression(&self) -> Vec<Compression> {
         let mut used_compression = vec![0; self.pak.compression.len()];
         for entry in self.pak.index.entries.values() {
