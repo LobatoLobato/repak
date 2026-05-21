@@ -238,9 +238,11 @@ impl PakReader {
     }
     
     pub fn files_ref<'a>(&'a self) -> Vec<&'a String> {
-        // let a = self.pak.index.entries.keys();
-        // let a = self.pak.index.entries().keys();
         self.pak.index.entries().keys().collect()
+    }
+    
+    pub fn files_ref_with_size<'a>(&'a self) -> Vec<(&'a String, u64)> {
+        self.pak.index.entries().iter().map(|(path, e)| (path, e.uncompressed)).collect()
     }
     
     pub fn remove_file(&mut self, path: &str) {
